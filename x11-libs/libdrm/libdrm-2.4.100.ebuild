@@ -20,7 +20,7 @@ else
 	KEYWORDS="alpha amd64 arm arm64 hppa ia64 ~mips ppc ppc64 ~s390 ~sh sparc x86 ~amd64-linux ~x86-linux"
 fi
 
-VIDEO_CARDS="amdgpu exynos freedreno intel nouveau omap radeon tegra vc4 vivante vmware"
+VIDEO_CARDS="amdgpu exynos freedreno intel nouveau omap radeon tegra vc4 vivante vmware lima"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
@@ -46,6 +46,7 @@ multilib_src_configure() {
 		-Dudev=false
 		-Dcairo-tests=false
 		-Damdgpu=$(usex video_cards_amdgpu true false)
+		-Damdgpu=$(usex video_cards_lima true false)
 		-Dexynos=$(usex video_cards_exynos true false)
 		-Dfreedreno=$(usex video_cards_freedreno true false)
 		-Dintel=$(usex video_cards_intel true false)
