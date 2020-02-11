@@ -1,0 +1,25 @@
+diff --git a/src/gallium/targets/dri/meson.build b/src/gallium/targets/dri/meson.build
+index 954b2182ce4..87c11000bc1 100644
+--- a/src/gallium/targets/dri/meson.build
++++ b/src/gallium/targets/dri/meson.build
+@@ -75,6 +75,7 @@ foreach d : [[with_gallium_kmsro, [
+                'imx-drm_dri.so',
+                'ingenic-drm_dri.so',
+                'mcde_dri.so',
++               'mediatek_dri.so',
+                'meson_dri.so',
+                'mi0283qt_dri.so',
+                'mxsfb-drm_dri.so',
+diff --git a/src/gallium/targets/dri/target.c b/src/gallium/targets/dri/target.c
+index f71f690a70e..c7dd097f5ba 100644
+--- a/src/gallium/targets/dri/target.c
++++ b/src/gallium/targets/dri/target.c
+@@ -100,6 +100,7 @@ DEFINE_LOADER_DRM_ENTRYPOINT(ili9341)
+ DEFINE_LOADER_DRM_ENTRYPOINT(imx_drm)
+ DEFINE_LOADER_DRM_ENTRYPOINT(ingenic_drm)
+ DEFINE_LOADER_DRM_ENTRYPOINT(mcde)
++DEFINE_LOADER_DRM_ENTRYPOINT(mediatek)
+ DEFINE_LOADER_DRM_ENTRYPOINT(meson)
+ DEFINE_LOADER_DRM_ENTRYPOINT(mi0283qt)
+ DEFINE_LOADER_DRM_ENTRYPOINT(mxsfb_drm)
+
