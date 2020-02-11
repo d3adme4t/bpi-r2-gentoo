@@ -28,6 +28,11 @@ RESTRICT="
 	!test? ( test )
 "
 
+PATCHES=(
+        "${FILESDIR}"/01-mesa-mtk.patch
+)
+
+
 RADEON_CARDS="r100 r200 r300 r600 radeon radeonsi"
 VIDEO_CARDS="${RADEON_CARDS} freedreno i915 i965 intel iris lima nouveau panfrost vc4 virgl vivante vmware"
 for card in ${VIDEO_CARDS}; do
