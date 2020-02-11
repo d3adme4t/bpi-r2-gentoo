@@ -28,9 +28,6 @@ RESTRICT="
 	!test? ( test )
 "
 
-PATCHES=(
-        "${FILESDIR}"/01-mesa-mtk.patch
-)
 
 
 RADEON_CARDS="r100 r200 r300 r600 radeon radeonsi"
@@ -249,6 +246,11 @@ x86? (
 	usr/lib*/libOSMesa.so.8.0.0
 	libglvnd? ( usr/lib/libGLX_mesa.so.0.0.0 )
 )"
+
+PATCHES=(
+	"${FILESDIR}"/01-mesa-mtk.patch
+)
+
 
 llvm_check_deps() {
 	local flags=${MULTILIB_USEDEP}
