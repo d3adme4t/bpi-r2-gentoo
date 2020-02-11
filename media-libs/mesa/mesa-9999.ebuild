@@ -152,7 +152,6 @@ LLVM_DEPSTR="
 		sys-devel/llvm:10[${MULTILIB_USEDEP}]
 		sys-devel/llvm:9[${MULTILIB_USEDEP}]
 		sys-devel/llvm:8[${MULTILIB_USEDEP}]
-		sys-devel/llvm:7[${MULTILIB_USEDEP}]
 	)
 	sys-devel/llvm:=[${MULTILIB_USEDEP}]
 "
@@ -246,6 +245,10 @@ x86? (
 	usr/lib*/libOSMesa.so.8.0.0
 	libglvnd? ( usr/lib/libGLX_mesa.so.0.0.0 )
 )"
+
+PATCHES=(
+	"${FILESDIR}"/01-mesa-mtk.patch
+)
 
 llvm_check_deps() {
 	local flags=${MULTILIB_USEDEP}
