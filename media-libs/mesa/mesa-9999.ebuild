@@ -18,7 +18,7 @@ if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/mesa.git"
 	inherit git-r3
 else
-	SRC_URI="https://mesa.freedesktop.org/archive/${MY_P}.tar.xz"
+	SRC_URI="https://archive.mesa3d.org/${MY_P}.tar.xz"
 	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux ~sparc-solaris ~x64-solaris ~x86-solaris"
 fi
 
@@ -35,7 +35,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	+classic d3d9 debug +dri3 +egl +gallium +gbm gles1 +gles2 +libglvnd +llvm
+	+classic d3d9 debug +dri3 +egl +gallium +gbm gles1 +gles2 +llvm
 	lm-sensors opencl osmesa selinux test unwind vaapi valgrind vdpau vulkan
 	vulkan-overlay wayland +X xa xvmc zink +zstd"
 
@@ -76,14 +76,8 @@ LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.100"
 RDEPEND="
 	!app-eselect/eselect-mesa
 	>=dev-libs/expat-2.1.0-r3:=[${MULTILIB_USEDEP}]
+	>=media-libs/libglvnd-1.3.2[X?,${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8[${MULTILIB_USEDEP}]
-	libglvnd? (
-		>=media-libs/libglvnd-1.2.0-r1[X?,${MULTILIB_USEDEP}]
-		!app-eselect/eselect-opengl
-	)
-	!libglvnd? (
-		>=app-eselect/eselect-opengl-1.3.0
-	)
 	gallium? (
 		unwind? ( sys-libs/libunwind[${MULTILIB_USEDEP}] )
 		llvm? (
@@ -244,7 +238,7 @@ x86? (
 	usr/lib*/libGLESv2.so.2.0.0
 	usr/lib*/libGL.so.1.2.0
 	usr/lib*/libOSMesa.so.8.0.0
-	libglvnd? ( usr/lib/libGLX_mesa.so.0.0.0 )
+	usr/lib/libGLX_mesa.so.0.0.0
 )"
 
 PATCHES=(
@@ -501,13 +495,13 @@ multilib_src_configure() {
 	emesonargs+=(
 		$(meson_use test build-tests)
 		-Dglx=$(usex X dri disabled)
-		-Dshared-glapi=enabled
+		-Dglvnd=true
+		-Dshared-glapi=true
 		$(meson_feature dri3)
 		$(meson_feature egl)
 		$(meson_feature gbm)
 		$(meson_feature gles1)
 		$(meson_feature gles2)
-		$(meson_use libglvnd glvnd)
 		$(meson_use selinux)
 		$(meson_feature zstd)
 		-Dvalgrind=$(usex valgrind auto false)
@@ -536,14 +530,6 @@ multilib_src_install_all() {
 
 multilib_src_test() {
 	meson test -v -C "${BUILD_DIR}" -t 100
-}
-
-pkg_postinst() {
-	if ! use libglvnd; then
-		# Switch to the xorg implementation.
-		echo
-		eselect opengl set --use-old ${OPENGL_DIR}
-	fi
 }
 
 # $1 - VIDEO_CARDS flag (check skipped for "--")
